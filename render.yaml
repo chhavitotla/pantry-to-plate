@@ -1,0 +1,47 @@
+services:
+  - type: web
+    name: chefmate-backend
+    env: python
+    rootDir: .
+    buildCommand: pip install -r requirements.txt
+    startCommand: KMP_DUPLICATE_LIB_OK=TRUE uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: MONGO_URI
+        sync: false
+      - key: MONGO_DB
+        sync: false
+      - key: MONGO_COLLECTION
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: FAISS_INDEX_PATH
+        value: app/ai/faiss_index/recipes.faiss
+      - key: FAISS_MAPPING_PATH
+        value: app/ai/faiss_index/index_to_recipe_id.pkl
+      - key: REQUESTS_PER_MINUTE
+        value: "20"
+      - key: TOKENS_PER_MINUTE
+        value: "40000"
+      - key: REDIS_HOST
+        sync: false
+      - key: REDIS_PORT
+        value: "6379"
+      - key: REDIS_DB
+        value: "0"
+
+  - type: web
+    name: chefmate-frontend
+    env: node
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm run start -- --port $PORT
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: BACKEND_API_URL
+        sync: false
+      - key: BACKEND_API_KEY
+        sync: false

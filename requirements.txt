@@ -9,5 +9,5 @@ langchain==1.2.3
 langchain-core==1.2.8
 langchain-community==0.4.1
 langchain-google-genai==4.2.1
-faiss-cpu==1.7.4
+faiss-cpu==1.13.2
 numpy==2.3.1

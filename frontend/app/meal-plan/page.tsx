@@ -16,8 +16,6 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
-// ─── Schema ───────────────────────────────────────────────────────────────────
-
 const mealPlanResponseSchema = z.object({
   day_0_prep: z.array(z.string()).default([]),
   days: z.record(
@@ -35,8 +33,6 @@ type MealPlanResponse = z.infer<typeof mealPlanResponseSchema>;
 type MealType = "breakfast" | "lunch" | "dinner";
 type GoalType = "high_protein" | "high_fiber" | "balanced";
 type DietaryType = "vegetarian" | "vegan" | "non-vegetarian";
-
-// ─── Constants ────────────────────────────────────────────────────────────────
 
 const TOTAL_STEPS = 5;
 
@@ -68,7 +64,6 @@ const DAY_COLORS = [
   "bg-[#d9f0ff]",
 ];
 
-// ─── Shared UI pieces ─────────────────────────────────────────────────────────
 
 function StepLabel({ children }: { children: React.ReactNode }) {
   return (
@@ -109,8 +104,6 @@ function TileButton({
     </button>
   );
 }
-
-// ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function MealPlanPage() {
   const [step, setStep] = useState(1);

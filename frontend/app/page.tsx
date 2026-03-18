@@ -76,10 +76,7 @@ export default function LandingPage() {
                     </div>
                   ))}
                 </div>
-                <p className="text-lg">
-                  <span className="font-semibold text-chefmate-ink"></span> hungry people
-                   {" skipping the \"what do I make?\" spiral"}
-                </p>
+               
               </div>
             </Reveal>
 

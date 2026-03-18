@@ -169,7 +169,7 @@ export default function MealPlanPage() {
     setResult(null);
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000"}/api/meal-plan`,
+        `${process.env.NEXT_PUBLIC_BACKEND_API_URL ?? "http://localhost:8000"}/api/meal-plan`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

@@ -163,13 +163,12 @@ export default function MealPlanPage() {
     if (step > 1) setStep((s) => s - 1);
   }
 
-  // ── Submit ──
   async function submit() {
     setLoading(true);
     setResult(null);
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_API_URL ?? "http://localhost:8000"}/api/meal-plan`,
+        "/api/meal-plan",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -205,7 +204,6 @@ export default function MealPlanPage() {
     }
   }
 
-  // ── Summary chips ──
   const chips = [
     pantryItems.length > 0
       ? `${pantryItems.length} ingredient${pantryItems.length > 1 ? "s" : ""}`
@@ -445,7 +443,7 @@ export default function MealPlanPage() {
 
         {/* Question card */}
         <div className="mt-6 rounded-[24px] border border-chefmate-oat-deep bg-white p-7 shadow-soft">
-          <StepLabel>Needed</StepLabel>
+          <StepLabel>{step === 5 ? "Optional" : "Needed"}</StepLabel>
 
           {/* Step 1 — Pantry */}
           {step === 1 && (

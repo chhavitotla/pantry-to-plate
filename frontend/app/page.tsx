@@ -42,7 +42,7 @@ export default function LandingPage() {
 
               <div className="space-y-5">
                 <h1 className="font-display text-5xl font-bold leading-[0.95] tracking-[-0.05em] text-chefmate-ink sm:text-6xl lg:text-[5.6rem]">
-                  Staring at your fridge like it owes &ldquo;you&rdquo; an answer?
+                  Staring at your fridge like it owes you an answer?
                 </h1>
                 <p className="max-w-2xl text-xl leading-9 text-chefmate-muted">
                   ChefMate turns your random fridge lineup into a meal idea that actually sounds

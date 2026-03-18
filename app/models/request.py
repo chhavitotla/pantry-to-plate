@@ -1,5 +1,6 @@
-from typing import List
-from pydantic import BaseModel
+from typing import List, Literal
+from pydantic import BaseModel, Field
+
 
 class RecommendRequest(BaseModel):
     pantry_items: List[str]
@@ -13,3 +14,11 @@ class RecommendRequest(BaseModel):
 class RecipeChatRequest(BaseModel):
     recipe_id: str
     question: str
+
+
+class MealPlanRequest(BaseModel):
+    pantry_items:  List[str]
+    meal_type:     Literal["breakfast", "lunch", "dinner"]
+    goal:          Literal["high_protein", "high_fiber", "balanced"]
+    allergies:     List[str] = Field(default_factory=list)
+    dietary_type:  Literal["vegetarian", "vegan", "non-vegetarian"]

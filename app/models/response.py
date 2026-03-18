@@ -34,3 +34,16 @@ class RecipeChatResponse(BaseModel):
     answer: str
     status: str
     message: Optional[str] = None
+
+
+class DayPlanResponse(BaseModel):
+    recipe: str
+    steps:  List[str]
+
+
+class MealPlanResponse(BaseModel):
+    day_0_prep: List[str]
+    days:       Dict[str, DayPlanResponse]
+    notes:      List[str]
+    status:     str
+    message:    Optional[str] = None

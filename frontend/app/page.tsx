@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Clock3, Salad, Sparkles, Wallet } from "lucide-react";
+import { ArrowRight, CalendarDays, Clock3, Salad, Sparkles, Wallet } from "lucide-react";
 
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
@@ -58,7 +58,10 @@ export default function LandingPage() {
                   </Link>
                 </Button>
                 <Button asChild size="lg" variant="secondary">
-                  <Link href="/#how-it-works">See the vibe</Link>
+                  <Link href="/meal-plan" className="inline-flex items-center gap-2">
+                    <CalendarDays className="h-4 w-4 text-chefmate-terracotta" />
+                    Plan My Week
+                  </Link>
                 </Button>
               </div>
 
@@ -75,7 +78,7 @@ export default function LandingPage() {
                 </div>
                 <p className="text-lg">
                   <span className="font-semibold text-chefmate-ink">12k+</span> hungry people
-                  skipping the “what do I make?” spiral
+                  skipping the "what do I make?" spiral
                 </p>
               </div>
             </Reveal>

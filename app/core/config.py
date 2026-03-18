@@ -1,5 +1,7 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import Field, AliasChoices
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file="app/.env",
@@ -23,6 +25,11 @@ class Settings(BaseSettings):
     gemini_api_key: str = Field(
         default="",
         validation_alias=AliasChoices("GEMINI_API_KEY", "gemini_api_key"),
+    )
+
+    gem_key_two: str = Field(
+        default="",
+        validation_alias=AliasChoices("GEM_API_TWO", "gem_api_two"),
     )
 
     faiss_index_path: str = Field(
@@ -54,4 +61,6 @@ class Settings(BaseSettings):
         default=0,
         validation_alias=AliasChoices("REDIS_DB", "redis_db"),
     )
+
+
 settings = Settings()

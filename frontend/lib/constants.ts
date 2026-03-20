@@ -1,5 +1,3 @@
-export const BACKEND_DEFAULT_URL = "http://127.0.0.1:8000";
-
 export const dietaryOptions = [
   { value: "vegetarian", label: "Vegetarian" },
   { value: "vegan", label: "Vegan" },

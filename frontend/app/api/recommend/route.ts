@@ -1,16 +1,20 @@
 import { NextResponse } from "next/server";
 
-import { BACKEND_DEFAULT_URL } from "@/lib/constants";
 import { sanitizeRecommendPayload } from "@/lib/recommend-payload";
 import { recommendPayloadSchema } from "@/types/api";
 
-const backendBaseUrl = process.env.BACKEND_API_URL ?? BACKEND_DEFAULT_URL;
+const backendBaseUrl =
+  process.env.BACKEND_API_URL ??
+  (process.env.NODE_ENV === "development" ? "http://127.0.0.1:8000" : "");
 const backendApiKey = process.env.BACKEND_API_KEY ?? "test-key";
 
 export async function POST(request: Request) {
   try {
     const json = await request.json();
     const payload = sanitizeRecommendPayload(recommendPayloadSchema.parse(json));
+    if (!backendBaseUrl) {
+      throw new Error("BACKEND_API_URL is missing in production deployment.");
+    }
 
     const response = await fetch(`${backendBaseUrl}/api/recommend`, {
       method: "POST",

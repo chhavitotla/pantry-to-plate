@@ -10,6 +10,9 @@ export async function POST(request: Request) {
   try {
     const json = await request.json();
     const payload = mealPlanFollowUpPayloadSchema.parse(json);
+    if (process.env.NODE_ENV === "production" && backendBaseUrl === BACKEND_DEFAULT_URL) {
+      throw new Error("BACKEND_API_URL is missing in production deployment.");
+    }
 
     const response = await fetch(`${backendBaseUrl}/api/meal-plan-chat`, {
       method: "POST",
@@ -35,4 +38,3 @@ export async function POST(request: Request) {
     );
   }
 }
-

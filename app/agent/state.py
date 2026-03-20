@@ -3,27 +3,32 @@ from typing_extensions import TypedDict
 
 
 class MealPlanState(TypedDict):
-    # ── inputs from the route ──────────────────────────────────────────
-    pantry_items:     List[str]
-    meal_type:        str                  # breakfast / lunch / dinner
-    goal:             str                  # high_protein / high_fiber / balanced
-    allergies:        List[str]
-    dietary_type:     str                  # vegetarian / vegan / non-vegetarian
+    # ── user inputs ────────────────────────────────────────────────────
+    pantry_items: List[str]
+    meal_type: str
+    goal: str
+    allergies: List[str]
+    dietary_type: str
 
-    # ── recipes handed in after mongo + faiss (upstream, not agent's job) ──
+    # ── upstream recipe candidates ─────────────────────────────────────
     filtered_recipes: List[Dict[str, Any]]
+    rag_recipes: List[Dict[str, Any]]
+    selected_recipes: List[Dict[str, Any]]
 
-    # ── selection node output ──────────────────────────────────────────
-    selected_recipes: List[Dict[str, Any]]  # up to 5
+    # ── iterative planning state ───────────────────────────────────────
+    daily_plan: Dict[str, Any]
+    pantry_usage: Dict[str, int]
+    nutrition_evaluation: Dict[str, Any]
+    day_0_prep: List[str]
 
-    # ── prep planning node output ──────────────────────────────────────
-    day_0_prep:       List[str]             # consolidated prep steps
+    iteration: int
+    max_iterations: int
+    target_score: float
+    is_satisfactory: bool
 
-    # ── day planner node output ────────────────────────────────────────
-    daily_plan:       Dict[str, Any]        # day_1 … day_N keyed dict
-
-    # ── formatter node output (final) ─────────────────────────────────
-    final_output:     Optional[Dict[str, Any]]
+    # ── observability / explainability ─────────────────────────────────
+    trace: List[str]
+    final_output: Optional[Dict[str, Any]]
 
     # ── error propagation ──────────────────────────────────────────────
-    error:            Optional[str]
+    error: Optional[str]

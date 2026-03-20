@@ -1,8 +1,16 @@
 import {
+  mealPlanFollowUpPayloadSchema,
+  mealPlanFollowUpResponseSchema,
+  mealPlanPayloadSchema,
+  mealPlanResponseSchema,
   recipeChatPayloadSchema,
   recipeChatResponseSchema,
   recommendPayloadSchema,
   recommendResponseSchema,
+  type MealPlanFollowUpPayload,
+  type MealPlanFollowUpResponse,
+  type MealPlanPayload,
+  type MealPlanResponse,
   type RecipeChatPayload,
   type RecipeChatResponse,
   type RecommendPayload,
@@ -61,6 +69,66 @@ export async function askRecipeFollowUp(
   const parsed = recipeChatResponseSchema.parse(json);
   if (parsed.status !== "OK") {
     throw new Error(parsed.message ?? "ChefMate could not answer that recipe question.");
+  }
+
+  return parsed;
+}
+
+export async function createMealPlan(
+  payload: MealPlanPayload,
+): Promise<MealPlanResponse> {
+  const body = mealPlanPayloadSchema.parse(payload);
+
+  const response = await fetch("/api/meal-plan", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+
+  const json = await response.json();
+  if (!response.ok) {
+    const message =
+      typeof json?.detail === "string"
+        ? json.detail
+        : "ChefMate could not generate a meal plan right now.";
+    throw new Error(message);
+  }
+
+  const parsed = mealPlanResponseSchema.parse(json);
+  if (parsed.status !== "OK") {
+    throw new Error(parsed.message ?? "ChefMate could not generate a meal plan.");
+  }
+
+  return parsed;
+}
+
+export async function askMealPlanFollowUp(
+  payload: MealPlanFollowUpPayload,
+): Promise<MealPlanFollowUpResponse> {
+  const body = mealPlanFollowUpPayloadSchema.parse(payload);
+
+  const response = await fetch("/api/meal-plan-chat", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+
+  const json = await response.json();
+  if (!response.ok) {
+    const message =
+      typeof json?.detail === "string"
+        ? json.detail
+        : "ChefMate could not update this meal plan right now.";
+    throw new Error(message);
+  }
+
+  const parsed = mealPlanFollowUpResponseSchema.parse(json);
+  if (parsed.status !== "OK") {
+    throw new Error(parsed.message ?? "ChefMate could not process the follow-up request.");
   }
 
   return parsed;

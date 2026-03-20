@@ -18,9 +18,10 @@ def retrieve_similar_recipe_ids(
     query: str,
     candidate_recipe_ids: List[str],
     k: int,
+    use_agent_key: bool = False,
 ) -> List[str]:
     index, index_to_recipe, recipe_to_index = _load_faiss()
-    embedder = get_query_embedding_model()
+    embedder = get_query_embedding_model(use_agent_key=use_agent_key)
 
     query_vec = np.array(embedder.embed_query(query), dtype="float32").reshape(1, -1)
 
@@ -57,9 +58,10 @@ def retrieve_related_recipe_ids(
     query: str,
     k: int,
     exclude_recipe_ids: List[str] | None = None,
+    use_agent_key: bool = False,
 ) -> List[str]:
     index, index_to_recipe, _recipe_to_index = _load_faiss()
-    embedder = get_query_embedding_model()
+    embedder = get_query_embedding_model(use_agent_key=use_agent_key)
 
     query_vec = np.array(embedder.embed_query(query), dtype="float32").reshape(1, -1)
     faiss.normalize_L2(query_vec)

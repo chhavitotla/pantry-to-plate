@@ -39,11 +39,22 @@ class RecipeChatResponse(BaseModel):
 class DayPlanResponse(BaseModel):
     recipe: str
     steps:  List[str]
+    recipe_id: Optional[str] = None
 
 
 class MealPlanResponse(BaseModel):
     day_0_prep: List[str]
     days:       Dict[str, DayPlanResponse]
     notes:      List[str]
+    trace:      List[str] = Field(default_factory=list)
+    nutrition_scores: Dict[str, Any] = Field(default_factory=dict)
     status:     str
     message:    Optional[str] = None
+
+
+class MealPlanFollowUpResponse(BaseModel):
+    answer: str
+    days: Dict[str, DayPlanResponse]
+    trace: List[str] = Field(default_factory=list)
+    status: str
+    message: Optional[str] = None

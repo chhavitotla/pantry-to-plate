@@ -69,8 +69,55 @@ export const recipeChatResponseSchema = z.object({
   message: z.string().nullable().optional(),
 });
 
+export const mealPlanDaySchema = z.object({
+  recipe: z.string(),
+  steps: z.array(z.string()).default([]),
+  recipe_id: z.string().optional(),
+});
+
+export const mealPlanPayloadSchema = z.object({
+  pantry_items: z.array(z.string()).min(1),
+  meal_type: z.enum(["breakfast", "lunch", "dinner"]),
+  goal: z.enum(["high_protein", "high_fiber", "balanced"]),
+  allergies: z.array(z.string()).default([]),
+  dietary_type: z.enum(["vegetarian", "vegan", "non-vegetarian"]),
+});
+
+export const mealPlanResponseSchema = z.object({
+  day_0_prep: z.array(z.string()).default([]),
+  days: z.record(mealPlanDaySchema).default({}),
+  notes: z.array(z.string()).default([]),
+  trace: z.array(z.string()).default([]),
+  nutrition_scores: z.record(z.any()).default({}),
+  status: z.string(),
+  message: z.string().nullable().optional(),
+});
+
+export const mealPlanFollowUpPayloadSchema = z.object({
+  question: z.string().min(1),
+  days: z.record(mealPlanDaySchema),
+  pantry_items: z.array(z.string()).min(1),
+  meal_type: z.enum(["breakfast", "lunch", "dinner"]),
+  goal: z.enum(["high_protein", "high_fiber", "balanced"]),
+  allergies: z.array(z.string()).default([]),
+  dietary_type: z.enum(["vegetarian", "vegan", "non-vegetarian"]),
+});
+
+export const mealPlanFollowUpResponseSchema = z.object({
+  answer: z.string(),
+  days: z.record(mealPlanDaySchema).default({}),
+  trace: z.array(z.string()).default([]),
+  status: z.string(),
+  message: z.string().nullable().optional(),
+});
+
 export type RecommendPayload = z.infer<typeof recommendPayloadSchema>;
 export type RecommendResponse = z.infer<typeof recommendResponseSchema>;
 export type RecipeChatPayload = z.infer<typeof recipeChatPayloadSchema>;
 export type RecipeChatResponse = z.infer<typeof recipeChatResponseSchema>;
+export type MealPlanDay = z.infer<typeof mealPlanDaySchema>;
+export type MealPlanPayload = z.infer<typeof mealPlanPayloadSchema>;
+export type MealPlanResponse = z.infer<typeof mealPlanResponseSchema>;
+export type MealPlanFollowUpPayload = z.infer<typeof mealPlanFollowUpPayloadSchema>;
+export type MealPlanFollowUpResponse = z.infer<typeof mealPlanFollowUpResponseSchema>;
 export type { Recipe };

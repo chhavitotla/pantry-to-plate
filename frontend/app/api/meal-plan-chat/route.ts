@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { BACKEND_DEFAULT_URL } from "@/lib/constants";
-import { mealPlanPayloadSchema } from "@/types/api";
+import { mealPlanFollowUpPayloadSchema } from "@/types/api";
 
 const backendBaseUrl = process.env.BACKEND_API_URL ?? BACKEND_DEFAULT_URL;
 const backendApiKey = process.env.BACKEND_API_KEY ?? "test-key";
@@ -9,9 +9,9 @@ const backendApiKey = process.env.BACKEND_API_KEY ?? "test-key";
 export async function POST(request: Request) {
   try {
     const json = await request.json();
-    const payload = mealPlanPayloadSchema.parse(json);
+    const payload = mealPlanFollowUpPayloadSchema.parse(json);
 
-    const response = await fetch(`${backendBaseUrl}/api/meal-plan`, {
+    const response = await fetch(`${backendBaseUrl}/api/meal-plan-chat`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -35,3 +35,4 @@ export async function POST(request: Request) {
     );
   }
 }
+

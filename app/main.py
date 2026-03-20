@@ -3,13 +3,17 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.routes.recommend import router as recommend_router
 from app.routes.recipe_chat import router as recipe_chat_router
 from app.routes.meal_plan import router as meal_plan_router
+from app.core.config import settings
 
 app = FastAPI(title="Pantry AI Backend")
 
+cors_origins = settings.cors_origins or ["*"]
+allow_all_origins = "*" in cors_origins
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=cors_origins,
+    allow_credentials=not allow_all_origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )

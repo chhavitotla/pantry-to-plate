@@ -62,5 +62,36 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("REDIS_DB", "redis_db"),
     )
 
+    backend_cors_origins: str = Field(
+        default="http://localhost:3000,http://127.0.0.1:3000",
+        validation_alias=AliasChoices("BACKEND_CORS_ORIGINS", "backend_cors_origins"),
+    )
+
+    agent_max_iterations: int = Field(
+        default=2,
+        validation_alias=AliasChoices("AGENT_MAX_ITERATIONS", "agent_max_iterations"),
+    )
+    agent_target_score: float = Field(
+        default=78.0,
+        validation_alias=AliasChoices("AGENT_TARGET_SCORE", "agent_target_score"),
+    )
+
+    langsmith_tracing_enabled: bool = Field(
+        default=False,
+        validation_alias=AliasChoices("LANGSMITH_TRACING_ENABLED", "langsmith_tracing_enabled"),
+    )
+    langsmith_project: str = Field(
+        default="chefmate-agentic",
+        validation_alias=AliasChoices("LANGSMITH_PROJECT", "langsmith_project"),
+    )
+
+    @property
+    def cors_origins(self) -> list[str]:
+        return [
+            origin.strip()
+            for origin in self.backend_cors_origins.split(",")
+            if origin.strip()
+        ]
+
 
 settings = Settings()

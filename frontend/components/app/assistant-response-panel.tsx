@@ -54,24 +54,24 @@ export function AssistantResponsePanel({ message }: { message: string }) {
 
   return (
     <Card className="border-chefmate-saffron/60 bg-[#fffdf3]">
-      <CardContent className="p-6 sm:p-7">
-        <div className="flex gap-4">
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-chefmate-saffron/20 text-[#9c6d0d]">
+      <CardContent className="p-4 sm:p-7">
+        <div className="flex items-start gap-3 sm:gap-4">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-chefmate-saffron/20 text-[#9c6d0d] sm:h-12 sm:w-12">
             <Sparkles className="h-5 w-5" />
           </div>
 
-          <div className="min-w-0 space-y-5">
+          <div className="min-w-0 space-y-4 sm:space-y-5">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-chefmate-saffron">
               ChefMate&apos;s nudge
             </p>
 
-            <div className="space-y-4">
+            <div className="space-y-3.5 sm:space-y-4">
               {blocks.map((block, index) => {
                 if (block.type === "title") {
                   return (
                     <h3
                       key={`${block.type}-${index}`}
-                      className="font-display text-3xl font-bold leading-tight tracking-[-0.03em] text-chefmate-ink sm:text-4xl"
+                      className="break-words font-display text-2xl font-bold leading-tight tracking-[-0.03em] text-chefmate-ink sm:text-4xl"
                     >
                       {block.content}
                     </h3>
@@ -82,7 +82,7 @@ export function AssistantResponsePanel({ message }: { message: string }) {
                   return (
                     <h4
                       key={`${block.type}-${index}`}
-                      className="pt-2 text-lg font-semibold text-chefmate-ink sm:text-xl"
+                      className="pt-1 text-lg font-semibold text-chefmate-ink sm:pt-2 sm:text-xl"
                     >
                       {block.content}
                     </h4>
@@ -93,10 +93,10 @@ export function AssistantResponsePanel({ message }: { message: string }) {
                   return (
                     <div
                       key={`${block.type}-${index}`}
-                      className="flex gap-3 text-base leading-8 text-chefmate-ink sm:text-lg"
+                      className="flex gap-3 text-sm leading-7 text-chefmate-ink sm:text-lg sm:leading-8"
                     >
-                      <span className="mt-[0.6rem] h-2.5 w-2.5 shrink-0 rounded-full bg-chefmate-terracotta" />
-                      <p>{block.content}</p>
+                      <span className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-chefmate-terracotta sm:mt-[0.6rem]" />
+                      <p className="break-words">{block.content}</p>
                     </div>
                   );
                 }
@@ -105,12 +105,12 @@ export function AssistantResponsePanel({ message }: { message: string }) {
                   return (
                     <div
                       key={`${block.type}-${index}`}
-                      className="flex gap-4 rounded-[22px] bg-white/65 px-4 py-3"
+                      className="grid grid-cols-[2rem_1fr] items-start gap-3 rounded-[20px] bg-white/65 px-3 py-3 sm:grid-cols-[2.5rem_1fr] sm:gap-4 sm:rounded-[22px] sm:px-4"
                     >
                       <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-chefmate-plum text-sm font-semibold text-white">
                         {block.index}
                       </div>
-                      <p className="text-base leading-8 text-chefmate-ink sm:text-lg">
+                      <p className="break-words text-sm leading-7 text-chefmate-ink sm:text-lg sm:leading-8">
                         {block.content}
                       </p>
                     </div>
@@ -120,7 +120,7 @@ export function AssistantResponsePanel({ message }: { message: string }) {
                 return (
                   <p
                     key={`${block.type}-${index}`}
-                    className="text-base leading-8 text-chefmate-ink sm:text-lg"
+                    className="break-words text-sm leading-7 text-chefmate-ink sm:text-lg sm:leading-8"
                   >
                     {block.content}
                   </p>

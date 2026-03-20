@@ -1,7 +1,7 @@
 "use client";
 
 import { Download, Loader2, Share2 } from "lucide-react";
-import { toBlob } from "html-to-image";
+import { toBlob, toPng } from "html-to-image";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -27,26 +27,68 @@ export function ShareRecipeButton({ recipe }: { recipe: Recipe }) {
     });
   }
 
+  async function ensureFontsReady() {
+    if (typeof document === "undefined" || !("fonts" in document)) {
+      return;
+    }
+
+    await Promise.race([
+      document.fonts.ready,
+      new Promise<void>((resolve) => {
+        setTimeout(() => resolve(), 1200);
+      }),
+    ]);
+  }
+
+  async function captureRecipeCard(node: HTMLDivElement) {
+    const pixelRatio =
+      typeof window === "undefined" ? 1.5 : Math.min(2, Math.max(1, window.devicePixelRatio || 1.5));
+    const width = node.scrollWidth || 900;
+    const height = node.scrollHeight || 1200;
+
+    const blob = await toBlob(node, {
+      cacheBust: true,
+      pixelRatio,
+      backgroundColor: "#fbf7ef",
+      width,
+      height,
+      style: {
+        transform: "none",
+      },
+    });
+
+    if (blob) {
+      return blob;
+    }
+
+    const dataUrl = await toPng(node, {
+      cacheBust: true,
+      pixelRatio,
+      backgroundColor: "#fbf7ef",
+      width,
+      height,
+      style: {
+        transform: "none",
+      },
+    });
+
+    const fallbackResponse = await fetch(dataUrl);
+    return fallbackResponse.blob();
+  }
+
   async function handleSave() {
     setIsSaving(true);
     setShouldRenderCard(true);
 
     try {
       await waitForCardMount();
+      await ensureFontsReady();
 
       if (!cardRef.current) {
         throw new Error("Could not prepare recipe card.");
       }
 
-      const blob = await toBlob(cardRef.current, {
-        cacheBust: true,
-        pixelRatio: 2,
-        backgroundColor: "#fbf7ef",
-      });
-
-      if (!blob) {
-        throw new Error("Could not create recipe image.");
-      }
+      const blob = await captureRecipeCard(cardRef.current);
 
       const file = new File([blob], `${recipe.recipe_name}.png`, { type: "image/png" });
       const nav = navigator as ShareCapableNavigator;
@@ -84,7 +126,7 @@ export function ShareRecipeButton({ recipe }: { recipe: Recipe }) {
       </Button>
 
       {shouldRenderCard ? (
-        <div className="pointer-events-none fixed -left-[9999px] top-0">
+        <div className="pointer-events-none fixed left-0 top-0 z-[-1] opacity-0">
           <div
             ref={cardRef}
             className="flex h-[1200px] w-[900px] flex-col justify-between overflow-hidden rounded-[48px] border border-chefmate-oat-deep bg-[#fbf7ef] p-14 text-chefmate-ink"

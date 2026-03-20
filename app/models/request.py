@@ -22,3 +22,19 @@ class MealPlanRequest(BaseModel):
     goal:          Literal["high_protein", "high_fiber", "balanced"]
     allergies:     List[str] = Field(default_factory=list)
     dietary_type:  Literal["vegetarian", "vegan", "non-vegetarian"]
+
+
+class MealPlanDayPayload(BaseModel):
+    recipe: str
+    steps: List[str] = Field(default_factory=list)
+    recipe_id: str | None = None
+
+
+class MealPlanFollowUpRequest(BaseModel):
+    question: str
+    days: dict[str, MealPlanDayPayload]
+    pantry_items: List[str]
+    meal_type: Literal["breakfast", "lunch", "dinner"]
+    goal: Literal["high_protein", "high_fiber", "balanced"]
+    allergies: List[str] = Field(default_factory=list)
+    dietary_type: Literal["vegetarian", "vegan", "non-vegetarian"]
